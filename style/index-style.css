@@ -1,0 +1,127 @@
+:root {
+    --mint-green: #B5EADB;
+    --dark-blue: #3A4B7C;
+    --btn-purple: #D5BDE8;
+    --btn-green: #D7E5AA;
+    --card-gray: #E2E2E2;
+    --card-beige: #EAD0A5;
+    --font-family: 'Nunito', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--dark-blue);
+}
+
+/* Tipografia e Cores Base */
+h1, h2, h3, h4, .navbar-brand, .nav-link {
+    color: var(--dark-blue) !important;
+    font-weight: 700;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--mint-green);
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #E279A3 !important;
+    text-shadow: 1px 1px 0px var(--mint-green), -1px -1px 0px var(--dark-blue);
+}
+
+.nav-link {
+    margin: 0 15px;
+    font-size: 1.1rem;
+}
+
+.btn-entrar {
+    border: 1px solid var(--dark-blue);
+    border-radius: 20px;
+    padding: 5px 20px;
+    background: transparent;
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #A0A0A0;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 80px 0;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    line-height: 1.2;
+}
+
+.btn-custom {
+    border-radius: 15px;
+    padding: 10px 30px;
+    font-weight: 600;
+    border: none;
+    color: var(--dark-blue);
+    margin-right: 15px;
+}
+
+.btn-purple { background-color: var(--btn-purple); }
+.btn-green { background-color: var(--btn-green); }
+
+/* Metas Section */
+.section-title {
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.card-meta {
+    background-color: var(--card-gray);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: none;
+}
+
+.progress-custom {
+    height: 12px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 15px;
+}
+
+.progress-bar-custom {
+    background-color: var(--btn-green);
+    border-radius: 10px;
+}
+
+.progress-text {
+    font-weight: 800;
+    margin-left: 10px;
+}
+
+/* Tabelas Section */
+.card-grafico {
+    background-color: var(--card-beige);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    height: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: var(--mint-green);
+    padding: 30px 0;
+    margin-top: 50px;
+    font-size: 0.9rem;
+}
