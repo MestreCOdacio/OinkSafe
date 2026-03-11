@@ -1,0 +1,98 @@
+:root {
+    --verde-menta: #B5EADB;
+    --azul-escuro: #3A4B7C;
+    --btn-roxo: #D5BDE8;
+    --btn-verde: #D7E5AA;
+    --card-cinza: #E2E2E2;
+    --font-family: 'Nunito', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: #F8F9FA; /* Fundo levemente cinza para o conteúdo principal */
+    color: var(--azul-escuro);
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--azul-escuro);
+}
+
+/* Sidebar Esquerda */
+.sidebar {
+    background-color: var(--azul-escuro);
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+}
+
+.chart-container-sidebar {
+    height: 150px;
+    width: 100%;
+}
+
+/* Ícones do Topo */
+.user-icon-large {
+    width: 60px;
+    height: 60px;
+    background-color: #A0A0A0;
+    border-radius: 50%;
+}
+
+.bell-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Cards de Metas */
+.card-meta-cofrinho {
+    border: none;
+    border-radius: 20px;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-meta-cofrinho:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(58, 75, 124, 0.15);
+}
+
+.bg-cinza { background-color: var(--card-cinza); }
+.bg-roxo { background-color: var(--btn-roxo); }
+
+.progress-custom {
+    height: 12px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 15px;
+}
+
+.progress-bar-verde {
+    background-color: var(--btn-verde);
+    border-radius: 10px;
+}
+
+.progress-text {
+    font-weight: 800;
+    margin-left: 10px;
+    color: var(--azul-escuro);
+}
+
+/* Tabela Customizada */
+.custom-table {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.custom-table th {
+    background-color: var(--verde-menta);
+    color: var(--azul-escuro);
+    border-bottom: none;
+    padding: 15px;
+}
+
+.custom-table td {
+    padding: 15px;
+    vertical-align: middle;
+    color: var(--azul-escuro);
+    font-weight: 600;
+}

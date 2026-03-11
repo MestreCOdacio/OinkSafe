@@ -135,8 +135,7 @@ h1, h2, h3, h4, .navbar-brand, .nav-link {
 /* Efeito de Hover para todos os cards */
 .card-meta:hover, 
 .card-grafico:hover {
-    transform: translateY(-5px); /* Levanta o card em 5 pixels */
-    /* Cria uma sombra suave usando a cor dark-blue do seu tema (RGB: 58, 75, 124) com 15% de opacidade */
+    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(58, 75, 124, 0.15); 
 }
 
