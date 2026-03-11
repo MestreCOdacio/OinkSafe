@@ -96,3 +96,55 @@ h1, h2, h3, h4, h5 {
     color: var(--azul-escuro);
     font-weight: 600;
 }
+
+/* Card de Adicionar Meta */
+.card-add-meta {
+    background-color: transparent; 
+    border: 3px dashed #A0A0A0;
+    cursor: pointer; 
+    min-height: 155px; 
+}
+
+/* Efeito Hover do Card de Adicionar Meta */
+.card-add-meta:hover {
+    background-color: rgba(58, 75, 124, 0.03);
+    border-color: var(--azul-escuro);
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(58, 75, 124, 0.15);
+}
+
+/* Estilo do botão de + */
+.plus-icon {
+    font-size: 5rem;
+    color: #A0A0A0;
+    font-weight: 300;
+    line-height: 0.5;
+    transition: color 0.3s ease;
+}
+
+/* Muda a cor do + quando o mouse passa pelo card */
+.card-add-meta:hover .plus-icon {
+    color: var(--azul-escuro);
+}
+
+/* Seletor de Cores do Modal */
+.color-selector {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent; /* Borda invisível por padrão */
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+/* O que acontece quando o input de rádio oculto é selecionado (checked) */
+.btn-check:checked + .color-selector {
+    border: 3px solid var(--azul-escuro); /* Borda azul escura para destacar */
+    transform: scale(1.15); /* Aumenta a bolinha um pouquinho */
+    box-shadow: 0 4px 8px rgba(58, 75, 124, 0.3); /* Sombra para dar profundidade */
+}
+
+/* Efeito de hover suave nas bolinhas que não estão selecionadas */
+.color-selector:hover {
+    transform: scale(1.1);
+}
