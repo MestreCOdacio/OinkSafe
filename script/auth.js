@@ -74,24 +74,44 @@ window.fazerLogout = function() {
 // 4. Função para alterar a Navbar se o usuário estiver logado
 function checarEstadoLogin() {
     const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
-    const btnEntrar = document.getElementById('btn-nav-entrar'); // ID que vamos colocar no index.html
+    const btnEntrar = document.getElementById('btn-nav-entrar'); 
 
     if (sessao && btnEntrar) {
-        // Pega apenas o primeiro nome para não quebrar o layout
         const primeiroNome = sessao.nome.split(' ')[0];
-        
-        // Remove a classe de botão tradicional e muda o visual para o Nome + Botão de Sair
         btnEntrar.classList.remove('btn-entrar');
         btnEntrar.style.border = "none";
         btnEntrar.innerHTML = `
             <span class="fw-bold text-dark me-2">Olá, ${primeiroNome}</span>
             <button onclick="fazerLogout()" class="btn btn-sm btn-outline-danger" style="border-radius: 10px;">Sair</button>
         `;
-        // Remove o link original
         btnEntrar.href = "#";
         btnEntrar.onclick = function(e) { e.preventDefault(); };
     }
 }
 
-// Roda a checagem de login sempre que a página for carregada
-document.addEventListener('DOMContentLoaded', checarEstadoLogin);
+// 5. Função para proteger botões e exibir o Modal bonito
+function protegerBotoesPrivados() {
+    // Procura todos os elementos que receberam a classe no HTML
+    const elementosRestritos = document.querySelectorAll('.restricted-action');
+    const isLogado = localStorage.getItem('sessao_oinksafe') !== null;
+
+    elementosRestritos.forEach(elemento => {
+        elemento.addEventListener('click', function(event) {
+            // Se o usuário NÃO estiver logado
+            if (!isLogado) {
+                event.preventDefault(); // Impede o clique de levar para outra página
+                event.stopPropagation(); // Trava outras ações do botão
+                
+                // Aciona o Modal do Bootstrap via JavaScript
+                const modalAviso = new bootstrap.Modal(document.getElementById('modalAvisoLogin'));
+                modalAviso.show();
+            }
+        });
+    });
+}
+
+// Atualiza o ouvinte de eventos para rodar as duas funções quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    checarEstadoLogin();
+    protegerBotoesPrivados(); // Chama o nosso bloqueador de cliques
+});

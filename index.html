@@ -23,8 +23,8 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Metas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link restricted-action" href="#">Metas</a></li>
+                    <li class="nav-item"><a class="nav-link restricted-action" href="#">Gastos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Sobre</a></li>
                 </ul>
             </div>
@@ -40,8 +40,8 @@
             <div class="col-md-6">
                 <h1 class="hero-title">Saúde financeira<br>em primeiro lugar!</h1>
                 <div class="d-flex">
-                    <a href="cofrinho.html" class="btn btn-custom btn-purple text-decoration-none">Meu cofrinho</a>
-                    <button class="btn btn-custom btn-green">Ver depósitos e retiradas</button>
+                    <button class="btn btn-custom btn-green restricted-action">Adicionar Depósito</button>
+                    <button class="btn btn-custom btn-purple restricted-action">Adicionar Gasto</button>
                 </div>
             </div>
             <div class="col-md-6 text-center mt-5 mt-md-0">
@@ -52,41 +52,8 @@
 
     <div class="container mb-5">
         <h2 class="section-title">Suas Metas</h2>
-        <div class="row g-4">
-            <!-- Card -->
-                    <div class="col-md-4">
-                        <div class="card card-meta card-add-meta d-flex justify-content-center align-items-center h-100" data-bs-toggle="modal" data-bs-target="#modalNovaMeta">
-                            <span class="plus-icon">+</span>
-                        </div>
-                    </div>
-            <!-- Card -->
-            <div class="col-md-4">
-                <div class="card card-meta">
-                    <h4>Viagem</h4>
-                    <p class="mb-0">Objetivo: R$8.000,00</p>
-                    <p class="mb-3">Guardou: R$2.350,00</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="progress progress-custom w-100">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 29%"></div>
-                        </div>
-                        <span class="progress-text">29%</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Card -->
-            <div class="col-md-4">
-                <div class="card card-meta">
-                    <h4>Viagem</h4>
-                    <p class="mb-0">Objetivo: R$8.000,00</p>
-                    <p class="mb-3">Guardou: R$2.350,00</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="progress progress-custom w-100">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 29%"></div>
-                        </div>
-                        <span class="progress-text">29%</span>
-                    </div>
-                </div>
-            </div>
+        <div class="row g-4" id="container-metas">
+            
         </div>
     </div>
 
@@ -137,25 +104,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
                 
-                <div class="modal-header" style="background-color: var(--mint-green); border-bottom: none; padding: 20px 25px;">
-                    <h5 class="modal-title fw-bold" id="modalNovaMetaLabel" style="color: var(--dark-blue);">Criar Nova Meta</h5>
+                <div class="modal-header" style="background-color: var(--verde-menta); border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold" id="modalNovaMetaLabel" style="color: var(--azul-escuro);">Criar Nova Meta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 
                 <div class="modal-body" style="padding: 25px; background-color: white;">
                     <form>
                         <div class="mb-3">
-                            <label for="nomeMeta" class="form-label fw-bold" style="color: var(--dark-blue);">Nome da Meta</label>
+                            <label for="nomeMeta" class="form-label fw-bold" style="color: var(--azul-escuro);">Nome da Meta</label>
                             <input type="text" class="form-control" id="nomeMeta" placeholder="Ex: Trocar de celular" style="border-radius: 10px; border: 1px solid var(--card-gray);">
                         </div>
                         
                         <div class="mb-4">
-                            <label for="valorMeta" class="form-label fw-bold" style="color: var(--dark-blue);">Objetivo (R$)</label>
+                            <label for="valorMeta" class="form-label fw-bold" style="color: var(--azul-escuro);">Objetivo (R$)</label>
                             <input type="number" class="form-control" id="valorMeta" placeholder="Ex: 3000,00" style="border-radius: 10px; border: 1px solid var(--card-gray);">
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold" style="color: var(--dark-blue);">Cor de destaque</label>
+                            <label class="form-label fw-bold" style="color: var(--azul-escuro);">Cor de destaque</label>
                             <div class="d-flex gap-3">
                                 <input type="radio" class="btn-check" name="corMeta" id="corRoxa" autocomplete="off" checked>
                                 <label class="btn color-selector" for="corRoxa" style="background-color: var(--btn-roxo);"></label>
@@ -172,9 +139,32 @@
                         </div>
                         
                         <div class="d-grid">
-                            <button type="button" class="btn btn-custom btn-purple w-100 m-0" data-bs-dismiss="modal">Salvar Meta</button>
+                            <button type="button" class="btn btn-custom btn-purple w-100 m-0" onclick="salvarNovaMeta()" data-bs-dismiss="modal">Salvar Meta</button>
                         </div>
                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAvisoLogin" tabindex="-1" aria-labelledby="modalAvisoLoginLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" style="background-color: #E279A3; border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold text-white" id="modalAvisoLoginLabel">Acesso Restrito 🐷</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body text-center" style="padding: 30px 25px; background-color: white;">
+                    <h5 class="fw-bold mb-3" style="color: var(--dark-blue);">Ops! Você não está logado.</h5>
+                    <p class="text-muted mb-4">Para acessar as metas e adicionar gastos e depósitos, você precisa entrar na sua conta primeiro.</p>
+                    
+                    <div class="d-grid gap-3">
+                        <a href="login.html" class="btn btn-custom btn-purple w-100 m-0">Fazer Login</a>
+                        <button type="button" class="btn btn-outline-secondary w-100 m-0" style="border-radius: 10px; font-weight: 600; padding: 10px;" data-bs-dismiss="modal">Agora não</button>
+                    </div>
                 </div>
                 
             </div>
