@@ -99,11 +99,11 @@ function carregarMetas() {
         
         // Se a cor escolhida for o Azul Escuro, o texto precisa ser branco para dar leitura
         const corTexto = meta.cor === '#3A4B7C' ? 'text-white' : '';
-        const corLink = meta.cor === '#3A4B7C' ? 'text-white' : 'var(--dark-blue)';
 
+        // O HTML DO CARD ATUALIZADO (Removemos o link de detalhes e adicionamos as tags de Modal na div principal)
         const cardHTML = `
         <div class="col-md-4">
-            <div class="card card-meta d-flex flex-column" style="background-color: ${meta.cor};">
+            <div class="card card-meta d-flex flex-column" style="background-color: ${meta.cor}; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalDetalhesMeta" onclick="abrirDetalhesMeta(${meta.id})">
                 <h4 class="${corTexto}">${meta.nome}</h4>
                 <p class="mb-0 ${corTexto}">Objetivo: R$${parseFloat(meta.objetivo).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
                 <p class="mb-3 ${corTexto}">Guardou: R$${parseFloat(meta.guardou).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
@@ -113,12 +113,6 @@ function carregarMetas() {
                         <div class="progress-bar progress-bar-custom" role="progressbar" style="width: ${porcentagem}%; background-color: var(--azul-escuro);"></div>
                     </div>
                     <span class="progress-text ${corTexto}">${porcentagem}%</span>
-                </div>
-                
-                <div class="text-end mt-3">
-                    <a href="cofrinho.html" class="text-decoration-none fw-bold detalhe-link" style="color: ${corLink}; font-size: 0.95rem;">
-                        Detalhes &rarr;
-                    </a>
                 </div>
             </div>
         </div>
@@ -173,6 +167,82 @@ function salvarNovaMeta() {
         document.getElementById('valorMeta').value = '';
 
         // Recarrega os cards visualmente
+        carregarMetas();
+    }
+}
+
+// Função para carregar os dados da meta clicada no Modal de Detalhes
+function abrirDetalhesMeta(id) {
+    const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
+    if (!sessao) return;
+
+    let usuariosDB = JSON.parse(localStorage.getItem('usuarios_oinksafe')) || [];
+    let usuarioAtual = usuariosDB.find(user => user.email === sessao.email);
+    if (!usuarioAtual) return;
+
+    // Busca a meta específica pelo ID
+    const meta = usuarioAtual.metas.find(m => m.id === id);
+    if (!meta) return;
+
+    // Atualiza os textos no Modal
+    document.getElementById('modalDetalhesNomeMeta').innerText = meta.nome;
+    document.getElementById('modalDetalhesObjetivo').innerText = `R$ ${parseFloat(meta.objetivo).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    document.getElementById('modalDetalhesGuardou').innerText = `R$ ${parseFloat(meta.guardou).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    
+    // Atualiza a barra de progresso do Modal
+    const porcentagem = meta.objetivo > 0 ? Math.round((meta.guardou / meta.objetivo) * 100) : 0;
+    document.getElementById('modalDetalhesPorcentagem').innerText = `${porcentagem}%`;
+    document.getElementById('modalDetalhesBarra').style.width = `${porcentagem}%`;
+
+    // Atualiza o visual do cabeçalho do Modal para combinar com a cor da meta
+    const header = document.getElementById('modalDetalhesHeader');
+    header.style.backgroundColor = meta.cor;
+    
+    // Ajusta a cor do texto dependendo se o fundo for escuro (Azul Escuro) ou claro
+    if (meta.cor === '#3A4B7C') {
+        document.getElementById('modalDetalhesNomeMeta').classList.add('text-white');
+        document.querySelector('#modalDetalhesHeader .btn-close').classList.add('btn-close-white');
+    } else {
+        document.getElementById('modalDetalhesNomeMeta').classList.remove('text-white');
+        document.querySelector('#modalDetalhesHeader .btn-close').classList.remove('btn-close-white');
+    }
+
+// NOVO: Define o que o botão de Excluir do Modal de Detalhes vai fazer
+    document.getElementById('btnExcluirMeta').onclick = function() {
+        
+        // 1. Esconde o modal de detalhes para não ficar um por cima do outro
+        const modalDetalhesEl = document.getElementById('modalDetalhesMeta');
+        const modalDetalhesInstance = bootstrap.Modal.getInstance(modalDetalhesEl);
+        if (modalDetalhesInstance) modalDetalhesInstance.hide();
+        
+        // 2. Abre o nosso novo modal de Confirmação estilizado
+        const modalConfirmacao = new bootstrap.Modal(document.getElementById('modalConfirmarExclusao'));
+        modalConfirmacao.show();
+        
+        // 3. Passa a instrução de exclusão para o botão vermelho "Sim, excluir"
+        document.getElementById('btnConfirmarExclusao').onclick = function() {
+            excluirMeta(id); // Chama a função que realmente apaga os dados
+            modalConfirmacao.hide(); // Fecha a janelinha de confirmação
+        };
+    };
+} // <-- Fim da função abrirDetalhesMeta
+
+// Função para excluir a meta do banco de dados (agora sem o confirm padrão do navegador)
+function excluirMeta(id) {
+    const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
+    if (!sessao) return;
+
+    let usuariosDB = JSON.parse(localStorage.getItem('usuarios_oinksafe')) || [];
+    let indexUsuario = usuariosDB.findIndex(user => user.email === sessao.email);
+
+    if (indexUsuario !== -1) {
+        // Filtra as metas, removendo aquela que tem o ID selecionado
+        usuariosDB[indexUsuario].metas = usuariosDB[indexUsuario].metas.filter(m => m.id !== id);
+        
+        // Salva a lista atualizada no LocalStorage
+        localStorage.setItem('usuarios_oinksafe', JSON.stringify(usuariosDB));
+        
+        // Recarrega os cards na tela instantaneamente
         carregarMetas();
     }
 }

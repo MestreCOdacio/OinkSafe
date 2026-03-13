@@ -170,5 +170,70 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalDetalhesMeta" tabindex="-1" aria-labelledby="modalDetalhesMetaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" id="modalDetalhesHeader" style="border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold" id="modalDetalhesNomeMeta">Nome da Meta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body" style="padding: 30px 25px; background-color: white;">
+                    
+                    <div class="mb-4">
+                        <p class="mb-1 text-muted fw-bold" style="font-size: 0.9rem;">OBJETIVO TOTAL</p>
+                        <h3 id="modalDetalhesObjetivo" style="color: var(--dark-blue);" class="fw-bold">R$ 0,00</h3>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="mb-1 text-muted fw-bold" style="font-size: 0.9rem;">VALOR GUARDADO</p>
+                        <h3 id="modalDetalhesGuardou" style="color: var(--dark-blue);" class="fw-bold">R$ 0,00</h3>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold text-muted" style="font-size: 0.9rem;">PROGRESSO</span>
+                            <span class="fw-bold" id="modalDetalhesPorcentagem" style="color: var(--dark-blue);">0%</span>
+                        </div>
+                        <div class="progress" style="height: 12px; border-radius: 10px; background-color: var(--card-gray);">
+                            <div id="modalDetalhesBarra" class="progress-bar" role="progressbar" style="width: 0%; background-color: var(--dark-blue);"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid mt-5">
+                        <button type="button" class="btn btn-outline-danger w-100" id="btnExcluirMeta" style="border-radius: 10px; font-weight: 700; padding: 10px;">
+                            Excluir Meta
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-labelledby="modalConfirmarExclusaoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" style="background-color: #dc3545; border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold text-white" id="modalConfirmarExclusaoLabel">Atenção! ⚠️</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body text-center" style="padding: 30px 25px; background-color: white;">
+                    <h5 class="fw-bold mb-3" style="color: var(--dark-blue);">Tem certeza que deseja excluir?</h5>
+                    <p class="text-muted mb-4">Essa ação não pode ser desfeita e todo o progresso desta meta será perdido.</p>
+                    
+                    <div class="d-flex gap-3 justify-content-center mt-2">
+                        <button type="button" class="btn btn-outline-secondary w-50" style="border-radius: 10px; font-weight: 600;" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger w-50" id="btnConfirmarExclusao" style="border-radius: 10px; font-weight: 600;">Sim, excluir</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </body>
 </html>
