@@ -4,54 +4,31 @@ document.addEventListener("DOMContentLoaded", function() {
     const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
     const isLogado = sessao !== null;
 
-    // --- LÓGICA DOS GRÁFICOS ---
-    // Se não estiver logado, tudo é 0. Se estiver, carrega os dados provisórios.
-    const dadosPizza = isLogado ? [20, 10, 30, 15, 25] : [0, 0, 0, 0, 0];
-    const dadosBarras = isLogado ? [60, 40, 80, 70] : [0, 0, 0, 0];
+    // --- LÓGICA DOS GRÁFICOS (Protegidos com IF) ---
+    const pieCanvas = document.getElementById('pieChart');
+    if (pieCanvas) {
+        const dadosPizza = isLogado ? [20, 10, 30, 15, 25] : [0, 0, 0, 0, 0];
+        const ctxPie = pieCanvas.getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Alimentação', 'Cofrinho', 'Contas', 'Transporte', 'Lazer'],
+                datasets: [{ data: dadosPizza, backgroundColor: ['#B02626', '#EBE81B', '#29A643', '#2954A6', '#A02BA8'], borderWidth: 1, borderColor: '#EAD0A5' }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { family: "'Nunito', sans-serif", size: 12 }, color: '#3A4B7C', boxWidth: 15 } } } }
+        });
+    }
 
-    const ctxPie = document.getElementById('pieChart').getContext('2d');
-    new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-            labels: ['Alimentação', 'Cofrinho', 'Contas', 'Transporte', 'Lazer'],
-            datasets: [{
-                data: dadosPizza,
-                backgroundColor: ['#B02626', '#EBE81B', '#29A643', '#2954A6', '#A02BA8'],
-                borderWidth: 1,
-                borderColor: '#EAD0A5' 
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'right', labels: { font: { family: "'Nunito', sans-serif", size: 12 }, color: '#3A4B7C', boxWidth: 15 } }
-            }
-        }
-    });
-
-    const ctxBar = document.getElementById('barChart').getContext('2d');
-    new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: ['Mar', 'Abri', 'Mai', 'Jun'],
-            datasets: [{
-                label: 'Gastos',
-                data: dadosBarras,
-                backgroundColor: '#4A5CC0',
-                barThickness: 30
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { display: false, beginAtZero: true },
-                x: { grid: { display: false }, ticks: { font: { family: "'Nunito', sans-serif", weight: 'bold' }, color: '#3A4B7C' } }
-            }
-        }
-    });
+    const barCanvas = document.getElementById('barChart');
+    if (barCanvas) {
+        const dadosBarras = isLogado ? [60, 40, 80, 70] : [0, 0, 0, 0];
+        const ctxBar = barCanvas.getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: { labels: ['Mar', 'Abri', 'Mai', 'Jun'], datasets: [{ label: 'Gastos', data: dadosBarras, backgroundColor: '#4A5CC0', barThickness: 30 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false, beginAtZero: true }, x: { grid: { display: false }, ticks: { font: { family: "'Nunito', sans-serif", weight: 'bold' }, color: '#3A4B7C' } } } }
+        });
+    }
 
     // --- LÓGICA DAS METAS ---
     carregarMetas();
@@ -207,27 +184,44 @@ function abrirDetalhesMeta(id) {
         document.querySelector('#modalDetalhesHeader .btn-close').classList.remove('btn-close-white');
     }
 
-// NOVO: Define o que o botão de Excluir do Modal de Detalhes vai fazer
+// LÓGICA DO BOTÃO DE EXCLUIR
     document.getElementById('btnExcluirMeta').onclick = function() {
-        
-        // 1. Esconde o modal de detalhes para não ficar um por cima do outro
         const modalDetalhesEl = document.getElementById('modalDetalhesMeta');
         const modalDetalhesInstance = bootstrap.Modal.getInstance(modalDetalhesEl);
         if (modalDetalhesInstance) modalDetalhesInstance.hide();
         
-        // 2. Abre o nosso novo modal de Confirmação estilizado
         const modalConfirmacao = new bootstrap.Modal(document.getElementById('modalConfirmarExclusao'));
         modalConfirmacao.show();
         
-        // 3. Passa a instrução de exclusão para o botão vermelho "Sim, excluir"
         document.getElementById('btnConfirmarExclusao').onclick = function() {
-            excluirMeta(id); // Chama a função que realmente apaga os dados
-            modalConfirmacao.hide(); // Fecha a janelinha de confirmação
+            excluirMeta(id); 
+            modalConfirmacao.hide(); 
         };
     };
-} // <-- Fim da função abrirDetalhesMeta
 
-// Função para excluir a meta do banco de dados (agora sem o confirm padrão do navegador)
+    // LÓGICA DO BOTÃO DE RESGATAR
+    const btnResgatar = document.getElementById('btnResgatarMeta');
+    if (btnResgatar) {
+        btnResgatar.onclick = function() {
+            // Esconde o modal de detalhes
+            const modalDetalhesEl = document.getElementById('modalDetalhesMeta');
+            const modalDetalhesInstance = bootstrap.Modal.getInstance(modalDetalhesEl);
+            if (modalDetalhesInstance) modalDetalhesInstance.hide();
+            
+            // Abre o modal de celebração/resgate
+            const modalResgate = new bootstrap.Modal(document.getElementById('modalConfirmarResgate'));
+            modalResgate.show();
+            
+            // Passa a ação para o botão "Sim, resgatar!"
+            document.getElementById('btnConfirmarResgate').onclick = function() {
+                resgatarMeta(id); 
+                modalResgate.hide(); 
+            };
+        };
+    }
+}
+
+// Função para excluir a meta
 function excluirMeta(id) {
     const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
     if (!sessao) return;
@@ -236,13 +230,25 @@ function excluirMeta(id) {
     let indexUsuario = usuariosDB.findIndex(user => user.email === sessao.email);
 
     if (indexUsuario !== -1) {
-        // Filtra as metas, removendo aquela que tem o ID selecionado
         usuariosDB[indexUsuario].metas = usuariosDB[indexUsuario].metas.filter(m => m.id !== id);
-        
-        // Salva a lista atualizada no LocalStorage
+        localStorage.setItem('usuarios_oinksafe', JSON.stringify(usuariosDB));
+        carregarMetas();
+    }
+}
+
+// Função para resgatar a meta (concluir e arquivar)
+function resgatarMeta(id) {
+    const sessao = JSON.parse(localStorage.getItem('sessao_oinksafe'));
+    if (!sessao) return;
+
+    let usuariosDB = JSON.parse(localStorage.getItem('usuarios_oinksafe')) || [];
+    let indexUsuario = usuariosDB.findIndex(user => user.email === sessao.email);
+
+    if (indexUsuario !== -1) {
+        // Por enquanto, o resgate também remove a meta, mas de forma "positiva"
+        usuariosDB[indexUsuario].metas = usuariosDB[indexUsuario].metas.filter(m => m.id !== id);
         localStorage.setItem('usuarios_oinksafe', JSON.stringify(usuariosDB));
         
-        // Recarrega os cards na tela instantaneamente
         carregarMetas();
     }
 }

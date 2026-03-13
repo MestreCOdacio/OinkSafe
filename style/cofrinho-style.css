@@ -148,3 +148,42 @@ h1, h2, h3, h4, h5 {
 .color-selector:hover {
     transform: scale(1.1);
 }
+
+/* Estilos para os Cards Injetados pelo JS */
+.card-meta {
+    background-color: var(--card-cinza);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.card-meta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(58, 75, 124, 0.15); 
+}
+
+.card-add-meta {
+    background-color: transparent;
+    border: 3px dashed #A0A0A0;
+    cursor: pointer;
+    min-height: 155px;
+}
+
+.card-add-meta:hover {
+    background-color: rgba(58, 75, 124, 0.03);
+    border-color: var(--azul-escuro);
+}
+
+.plus-icon {
+    font-size: 5rem;
+    color: #A0A0A0;
+    font-weight: 300;
+    line-height: 0.5;
+    transition: color 0.3s ease;
+}
+
+.card-add-meta:hover .plus-icon {
+    color: var(--azul-escuro);
+}
