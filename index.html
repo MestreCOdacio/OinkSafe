@@ -30,7 +30,7 @@
             </div>
             <div class="d-flex align-items-center d-none d-lg-flex">
                 <div class="user-icon"></div>
-                <a href="login.html" class="btn btn-entrar text-decoration-none d-flex align-items-center justify-content-center">Entrar</a>
+                <a href="login.html" id="btn-nav-entrar" class="btn btn-entrar text-decoration-none d-flex align-items-center justify-content-center">Entrar</a>
             </div>
         </div>
     </nav>
@@ -54,19 +54,11 @@
         <h2 class="section-title">Suas Metas</h2>
         <div class="row g-4">
             <!-- Card -->
-            <div class="col-md-4">
-                <div class="card card-meta">
-                    <h4>Viagem</h4>
-                    <p class="mb-0">Objetivo: R$8.000,00</p>
-                    <p class="mb-3">Guardou: R$2.350,00</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="progress progress-custom w-100">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 29%" aria-valuenow="29" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="col-md-4">
+                        <div class="card card-meta card-add-meta d-flex justify-content-center align-items-center h-100" data-bs-toggle="modal" data-bs-target="#modalNovaMeta">
+                            <span class="plus-icon">+</span>
                         </div>
-                        <span class="progress-text">29%</span>
                     </div>
-                </div>
-            </div>
             <!-- Card -->
             <div class="col-md-4">
                 <div class="card card-meta">
@@ -137,7 +129,56 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script src="script/script.js"></script>
+    <script src="script/auth.js"></script>
+
+    
+    <div class="modal fade" id="modalNovaMeta" tabindex="-1" aria-labelledby="modalNovaMetaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" style="background-color: var(--mint-green); border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold" id="modalNovaMetaLabel" style="color: var(--dark-blue);">Criar Nova Meta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body" style="padding: 25px; background-color: white;">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nomeMeta" class="form-label fw-bold" style="color: var(--dark-blue);">Nome da Meta</label>
+                            <input type="text" class="form-control" id="nomeMeta" placeholder="Ex: Trocar de celular" style="border-radius: 10px; border: 1px solid var(--card-gray);">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="valorMeta" class="form-label fw-bold" style="color: var(--dark-blue);">Objetivo (R$)</label>
+                            <input type="number" class="form-control" id="valorMeta" placeholder="Ex: 3000,00" style="border-radius: 10px; border: 1px solid var(--card-gray);">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold" style="color: var(--dark-blue);">Cor de destaque</label>
+                            <div class="d-flex gap-3">
+                                <input type="radio" class="btn-check" name="corMeta" id="corRoxa" autocomplete="off" checked>
+                                <label class="btn color-selector" for="corRoxa" style="background-color: var(--btn-roxo);"></label>
+
+                                <input type="radio" class="btn-check" name="corMeta" id="corVerde" autocomplete="off">
+                                <label class="btn color-selector" for="corVerde" style="background-color: var(--btn-verde);"></label>
+
+                                <input type="radio" class="btn-check" name="corMeta" id="corCinza" autocomplete="off">
+                                <label class="btn color-selector" for="corCinza" style="background-color: var(--card-cinza);"></label>
+
+                                <input type="radio" class="btn-check" name="corMeta" id="corAzul" autocomplete="off">
+                                <label class="btn color-selector" for="corAzul" style="background-color: var(--azul-escuro);"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-custom btn-purple w-100 m-0" data-bs-dismiss="modal">Salvar Meta</button>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </body>
 </html>
