@@ -91,20 +91,49 @@ function checarEstadoLogin() {
 
 // 5. Função para proteger botões e exibir o Modal bonito
 function protegerBotoesPrivados() {
-    // Procura todos os elementos que receberam a classe no HTML
     const elementosRestritos = document.querySelectorAll('.restricted-action');
-    const isLogado = localStorage.getItem('sessao_oinksafe') !== null;
 
     elementosRestritos.forEach(elemento => {
         elemento.addEventListener('click', function(event) {
-            // Se o usuário NÃO estiver logado
+            event.preventDefault(); // Impede o comportamento padrão de cliques e links
+            
+            // Verifica o login EXATAMENTE no momento do clique (mais seguro)
+            const isLogado = localStorage.getItem('sessao_oinksafe') !== null;
+            
             if (!isLogado) {
-                event.preventDefault(); // Impede o clique de levar para outra página
-                event.stopPropagation(); // Trava outras ações do botão
-                
-                // Aciona o Modal do Bootstrap via JavaScript
-                const modalAviso = new bootstrap.Modal(document.getElementById('modalAvisoLogin'));
-                modalAviso.show();
+                // Se NÃO estiver logado -> Abre modal de aviso
+                const avisoEl = document.getElementById('modalAvisoLogin');
+                if (avisoEl) {
+                    const modalAviso = bootstrap.Modal.getOrCreateInstance(avisoEl);
+                    modalAviso.show();
+                } else {
+                    console.error("ERRO: Modal de aviso não encontrado no HTML!");
+                }
+            } 
+            else {
+                // Se ESTIVER logado -> Identifica qual botão foi clicado
+                if (this.id === 'btn-add-deposito') {
+                    const depEl = document.getElementById('modalAddDeposito');
+                    if (depEl) {
+                        const modalDep = bootstrap.Modal.getOrCreateInstance(depEl);
+                        modalDep.show();
+                    } else {
+                        console.error("ERRO: Modal de Depósito não encontrado no HTML!");
+                    }
+                } 
+                else if (this.id === 'btn-add-gasto') {
+                    const gastoEl = document.getElementById('modalAddGasto');
+                    if (gastoEl) {
+                        const modalGasto = bootstrap.Modal.getOrCreateInstance(gastoEl);
+                        modalGasto.show();
+                    } else {
+                        console.error("ERRO: Modal de Gasto não encontrado no HTML!");
+                    }
+                } 
+                else if (this.tagName === 'A' && this.getAttribute('href') !== '#') {
+                    // Se for um link da navbar (como "Metas"), deixa o usuário ir para a página
+                    window.location.href = this.getAttribute('href');
+                }
             }
         });
     });
@@ -113,5 +142,5 @@ function protegerBotoesPrivados() {
 // Atualiza o ouvinte de eventos para rodar as duas funções quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
     checarEstadoLogin();
-    protegerBotoesPrivados(); // Chama o nosso bloqueador de cliques
+    protegerBotoesPrivados(); // Essa é a linha que estava faltando para o código dos modais ligar
 });
