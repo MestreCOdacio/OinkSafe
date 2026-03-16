@@ -35,30 +35,8 @@
         </div>
     </nav>
 
-    <div class="container hero-section">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1 class="hero-title">Saúde financeira<br>em primeiro lugar!</h1>
-                <div class="d-flex">
-                    <button class="btn btn-custom btn-green restricted-action">Adicionar Depósito</button>
-                    <button class="btn btn-custom btn-purple restricted-action">Adicionar Gasto</button>
-                </div>
-            </div>
-            <div class="col-md-6 text-center mt-5 mt-md-0">
-                <img src="https://cdni.iconscout.com/illustration/premium/thumb/business-investment-3483600-2912017.png" alt="Ilustração Financeira" class="img-fluid" style="max-height: 300px;">
-            </div>
-        </div>
-    </div>
-
     <div class="container mb-5">
-        <h2 class="section-title">Suas Metas</h2>
-        <div class="row g-4" id="container-metas">
-            
-        </div>
-    </div>
-
-    <div class="container mb-5">
-        <h2 class="section-title">Tabelas</h2>
+        <h2 class="section-title">Despesas e Depósitos</h2>
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="card card-grafico">
@@ -76,6 +54,18 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex mt-4"> 
+                <button class="btn btn-custom btn-green restricted-action" data-bs-toggle="modal" data-bs-target="#modalAddDeposito">Adicionar Depósito</button>
+                <button class="btn btn-custom btn-purple restricted-action" data-bs-toggle="modal" data-bs-target="#modalAddGasto">Adicionar Gasto</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mb-5">
+        <h2 class="section-title">Suas Metas</h2>
+        <div class="row g-4" id="container-metas">
+            
         </div>
     </div>
 
@@ -255,6 +245,80 @@
                         <button type="button" class="btn btn-outline-secondary w-50" style="border-radius: 10px; font-weight: 600;" data-bs-dismiss="modal">Ainda não</button>
                         <button type="button" class="btn btn-success w-50" id="btnConfirmarResgate" style="border-radius: 10px; font-weight: 600;">Sim, resgatar!</button>
                     </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAddDeposito" tabindex="-1" aria-labelledby="modalAddDepositoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" style="background-color: var(--btn-verde); border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold" id="modalAddDepositoLabel" style="color: var(--azul-escuro);">Adicionar Depósito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body" style="padding: 25px; background-color: white;">
+                    <form>
+                        <div class="mb-3">
+                            <label for="valorDeposito" class="form-label fw-bold" style="color: var(--azul-escuro);">Valor (R$)</label>
+                            <input type="number" class="form-control" id="valorDeposito" placeholder="Ex: 150,00" style="border-radius: 10px; border: 1px solid var(--card-cinza);">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="descDeposito" class="form-label fw-bold" style="color: var(--azul-escuro);">Descrição</label>
+                            <input type="text" class="form-control" id="descDeposito" placeholder="Ex: Salário, Freela, Venda..." style="border-radius: 10px; border: 1px solid var(--card-cinza);">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-custom btn-green w-100 m-0" data-bs-dismiss="modal">Salvar Depósito</button>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAddGasto" tabindex="-1" aria-labelledby="modalAddGastoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                
+                <div class="modal-header" style="background-color: var(--btn-roxo); border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title fw-bold" id="modalAddGastoLabel" style="color: var(--azul-escuro);">Adicionar Gasto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body" style="padding: 25px; background-color: white;">
+                    <form>
+                        <div class="mb-3">
+                            <label for="valorGasto" class="form-label fw-bold" style="color: var(--azul-escuro);">Valor (R$)</label>
+                            <input type="number" class="form-control" id="valorGasto" placeholder="Ex: 50,00" style="border-radius: 10px; border: 1px solid var(--card-cinza);">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoriaGasto" class="form-label fw-bold" style="color: var(--azul-escuro);">Categoria</label>
+                            <select class="form-select" id="categoriaGasto" style="border-radius: 10px; border: 1px solid var(--card-cinza); color: var(--azul-escuro);">
+                                <option selected disabled>Selecione uma categoria</option>
+                                <option value="alimentacao">Alimentação</option>
+                                <option value="cofrinho">Cofrinho</option>
+                                <option value="contas">Contas</option>
+                                <option value="transporte">Transporte</option>
+                                <option value="lazer">Lazer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="descGasto" class="form-label fw-bold" style="color: var(--azul-escuro);">Descrição (Opcional)</label>
+                            <input type="text" class="form-control" id="descGasto" placeholder="Ex: Mercado, Uber, Assinatura..." style="border-radius: 10px; border: 1px solid var(--card-cinza);">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-custom btn-purple w-100 m-0" data-bs-dismiss="modal">Salvar Gasto</button>
+                        </div>
+                    </form>
                 </div>
                 
             </div>
