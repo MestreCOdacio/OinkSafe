@@ -61,6 +61,52 @@ app.post('/api/login', (req, res) => {
     });
 });
 
+// --- ROTAS PARA AS METAS ---
+
+// 1. Criar uma nova meta
+app.post('/api/metas', (req, res) => {
+    const { id_usuario, titulo, valor_alvo, valor_atual, cor_destaque } = req.body;
+
+    const sql = 'INSERT INTO metas (id_usuario, titulo, valor_alvo, valor_atual, cor_destaque) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [id_usuario, titulo, valor_alvo, valor_atual, cor_destaque], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Meta criada com sucesso!', id_meta: result.insertId });
+    });
+});
+
+// 2. Listar as metas ativas de um utilizador específico (ignora as resgatadas para não poluir a tela)
+app.get('/api/metas/:id_usuario', (req, res) => {
+    const { id_usuario } = req.params;
+
+    const sql = "SELECT * FROM metas WHERE id_usuario = ? AND status != 'resgatada'";
+    db.query(sql, [id_usuario], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(results);
+    });
+});
+
+// 3. Excluir uma meta permanentemente
+app.delete('/api/metas/:id_meta', (req, res) => {
+    const { id_meta } = req.params;
+
+    const sql = 'DELETE FROM metas WHERE id_meta = ?';
+    db.query(sql, [id_meta], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json({ message: 'Meta excluída com sucesso!' });
+    });
+});
+
+// 4. Resgatar a meta (Atualizar status para 'resgatada')
+app.put('/api/metas/resgatar/:id_meta', (req, res) => {
+    const { id_meta } = req.params;
+
+    const sql = "UPDATE metas SET status = 'resgatada' WHERE id_meta = ?";
+    db.query(sql, [id_meta], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json({ message: 'Meta resgatada com sucesso!' });
+    });
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor a correr na porta ${PORT}`);
