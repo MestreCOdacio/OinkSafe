@@ -1,45 +1,46 @@
 // 1. Função para Cadastrar Usuário
-function registrarUsuario(event) {
-    event.preventDefault(); // Evita recarregar a página
+async function registrarUsuario(event) {
+    event.preventDefault();
 
     const nome = document.getElementById('nome').value.trim();
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
 
-    // Verifica se os campos estão vazios
     if (!nome || !email || !senha || !confirmarSenha) {
         alert("Por favor, preencha todos os campos!");
         return;
     }
 
-    // Verifica se as senhas coincidem (Pedido do seu prompt anterior)
     if (senha !== confirmarSenha) {
         alert("As senhas não coincidem. Tente novamente.");
         return;
     }
 
-    // Pega a lista de usuários já existentes no LocalStorage (ou cria uma vazia)
-    let usuariosDB = JSON.parse(localStorage.getItem('usuarios_oinksafe')) || [];
+    try {
+        // Enviar os dados para o backend Node.js
+        const response = await fetch('http://localhost:3000/api/registrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, senha })
+        });
 
-    // Verifica se o email já está cadastrado
-    const emailExiste = usuariosDB.find(user => user.email === email);
-    if (emailExiste) {
-        alert("Este email já está cadastrado!");
-        return;
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message); // Exibe: "Cadastro realizado com sucesso!"
+            window.location.href = 'login.html';
+        } else {
+            alert(data.message); // Exibe: "Este email já está cadastrado!"
+        }
+    } catch (error) {
+        console.error("Erro ao registar:", error);
+        alert("Erro ao conectar com o servidor.");
     }
-
-    // Salva o novo usuário
-    const novoUsuario = { nome, email, senha };
-    usuariosDB.push(novoUsuario);
-    localStorage.setItem('usuarios_oinksafe', JSON.stringify(usuariosDB));
-
-    alert("Cadastro realizado com sucesso! Faça seu login.");
-    window.location.href = 'login.html'; // Redireciona para o login
 }
 
 // 2. Função para Fazer Login
-function fazerLogin(event) {
+async function fazerLogin(event) {
     event.preventDefault();
 
     const email = document.getElementById('email').value.trim();
@@ -50,18 +51,30 @@ function fazerLogin(event) {
         return;
     }
 
-    // Busca os usuários no LocalStorage
-    let usuariosDB = JSON.parse(localStorage.getItem('usuarios_oinksafe')) || [];
+    try {
+        // Validar dados no backend Node.js
+        const response = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+        });
 
-    // Verifica se existe um usuário com este email e senha
-    const usuarioLogado = usuariosDB.find(user => user.email === email && user.senha === senha);
+        const data = await response.json();
 
-    if (usuarioLogado) {
-        // Salva uma "Sessão" no LocalStorage para avisar que ele está logado
-        localStorage.setItem('sessao_oinksafe', JSON.stringify({ nome: usuarioLogado.nome, email: usuarioLogado.email }));
-        window.location.href = 'index.html'; // Redireciona para a página inicial
-    } else {
-        alert("Email ou senha incorretos!");
+        if (response.ok) {
+            // Guarda a sessão (agora usando o ID real da Base de Dados)
+            localStorage.setItem('sessao_oinksafe', JSON.stringify({ 
+                id: data.usuario.id,
+                nome: data.usuario.nome, 
+                email: data.usuario.email 
+            }));
+            window.location.href = 'index.html';
+        } else {
+            alert(data.message); // Exibe: "Email ou senha incorretos!"
+        }
+    } catch (error) {
+        console.error("Erro no login:", error);
+        alert("Erro ao conectar com o servidor.");
     }
 }
 
